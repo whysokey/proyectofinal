@@ -2,9 +2,12 @@ from flask import *
 import db
 from models import Stock
 from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy_report import Reporter
 
 # inicializar el servidor en el dominio actual
 app = Flask(__name__)
+
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -30,21 +33,36 @@ def home():
 
 @app.route('/a', methods=['GET', 'POST'])
 def admin():
+    todas_las_tareas = db.session.query(Stock).all()
+    print(todas_las_tareas)
+    data = []
+    for i in todas_las_tareas:
+        data.append((i.nombre, i.precio, i.lugar, i.stock, i.descripcion))
+
+
+    headings = ("Nombre", "Precio", "Localización", "Disponibilidad", "Descripción")
+
+    return render_template("admin.html", headings=headings, data=data)
+
+
+@app.route('/anadir_productos', methods=['POST'])
+def anadir_productos():
+
+    nombre = request.form.get("nombre")
+    precio = request.form.get("precio")
+    lugar = request.form.get("lugar")
+    stock = request.form.get("stock")
+    descripcion = request.form.get("descripcion")
+
+
+    producto = Stock(nombre=nombre, precio=precio, lugar=lugar, stock=stock, descripcion=descripcion)
+
+    db.session.add(producto)
+    db.session.commit()
+    db.session.close()
 
     return render_template("admin.html")
 
-def mostrar_productos():
-
-    if request.method == "POST":
-
-        nombre = request.form('nombre')
-
-        producto = Stock(nombre)
-
-        db.session.add(producto)
-        db.session.commit()
-        db.session.close()
-        db.session.query(Stock).all()
 
 
 @app.route('/cliente', methods=['GET', 'POST'])
@@ -68,7 +86,7 @@ def proveedor():
 
 
 if __name__ == "__main__":
-    db.Base.metadata.create_all(db.enginge)  # creamos el modelo de datos
+    db.Base.metadata.create_all(db.engine)  # creamos el modelo de datos
 
     # arranca el servidor web
     app.run(host="0.0.0.0", port=8000, debug=True)

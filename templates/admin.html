@@ -32,21 +32,30 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
 
      <br><br>
 
-   <div>
-     <form method = "post" action="/a">
+         <div class="alert alert-dismissible alert-primary">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>Cuidado!</strong> No dejes ningún campo vacío!
+         </div>
 
+   <div>
+     <form method = "post" action="/anadir_productos">
 
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" value="" class="form-control"><br><br>
 
+         <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" class="form-control"><br><br>
 
+        <label for="lugar">Localización:</label>
+        <input type="text" id="lugar" name="lugar" class="form-control"><br><br>
 
+        <label for="stock">Stock:</label>
+        <input type="text" id="stock" name="stock" class="form-control"><br><br>
 
-     </form>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" class="form-control"><br><br>
 
-     <form method = "get" action="{{ url_for('admin') }}">
-
-       <button type="submit" name="anade" value="anade" class="btn btn-success">Añade producto</button><br><br>
+         <button type="submit" name="anade" value="anade" class="btn btn-success">Añade producto</button><br><br>
 
      </form>
    </div>
@@ -54,32 +63,30 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
 
 
 
-<form method = "post" action="/a">
-
     <table class="table table-hover">
-        <thead>
-        <tr>
-        <th scope="col">ID</th>
-        <td>{{nombre}}</td>
-        <th scope="col">Nombre</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Localización</th>
-        <th scope="col">Stock</th>
-        <th scope="col">Descripción</th>
+        <tr class="table-dark">
+
+            {% for header in headings %}
+            <th>
+                {{ header }}
+            </th>
+
+            {% endfor %}
+        </tr>
+
+        {% for row in data %}
+        <tr class="table-secondary">
+
+            {% for cell in row %}
+            <td>{{ cell }}</td>
+            {% endfor %}
 
         </tr>
-        </thead>
-    <tbody>
-    <tr>
-      <th scope="row"></th>
-      <td>{{nombre}}</td>
-      <td>{{precio}}</td>
-      <td></td>
-    </tr>
 
-    </tbody>
-   </table>
-</form>
+        {% endfor %}
+
+        </tr>
+    </table>
 
 </main>
 

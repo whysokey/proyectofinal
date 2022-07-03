@@ -2,6 +2,7 @@ import db
 from sqlalchemy import Column, Integer, String
 
 
+
 class Stock(db.Base):
     __tablename__ = "Stock"
 
@@ -29,3 +30,12 @@ class Stock(db.Base):
         {}
 
         """.format(self.nombre, self.precio, self.lugar, self.stock, self.descripcion)
+
+class Resultado(db.Base):
+    __tablename__ = 'Resultado'
+    id = Column(Integer, primary_key=True)
+    nombre = Column(String(200), nullable=False)
+    precio = Column(String)
+    lugar = Column(String)
+    stock = Column(String)
+    descripcion = Column(String)
