@@ -24,69 +24,37 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
     <h1 class="display-4 text-center mt-4 " style="color:white">Produktor©</h1>
      <div class="col-md-4 offset-md-4 my-auto">
 
-        <div class="d-grid gap-2">
-            <form method="post" action="/">
-                <button type="submit" name="admin" value="admin" class="btn btn-outline-secondary">Home</button>
+        <div class="btn-toolbar gap-4 btn-group-lg">
+                <form method="get" action="/">
+
+                    <button type="submit" name="admin" value="admin" class="btn btn-outline-secondary">Home</button>
+
+                </form>
+
+            <form method="post" action="/cliente">
+
+                <button type="submit" name="cliente_b" value="cliente" class="btn btn-primary">Cliente</button>
+
             </form>
+
+
+            <form method="post" action="/proveedor">
+
+                <button type="submit" name="proveedor_b" value="proveedor" class="btn btn-warning">Proveedor</button>
+
+            </form>
+
+
         </div>
 
      <br><br>
 
-         <div class="alert alert-dismissible alert-primary">
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            <strong>Cuidado!</strong> No dejes ningún campo vacío!
-         </div>
 
-   <div>
-     <form method = "post" action="/anadir_productos">
-
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="" class="form-control"><br><br>
-
-         <label for="precio">Precio:</label>
-        <input type="text" id="precio" name="precio" class="form-control"><br><br>
-
-        <label for="lugar">Localización:</label>
-        <input type="text" id="lugar" name="lugar" class="form-control"><br><br>
-
-        <label for="stock">Stock:</label>
-        <input type="text" id="stock" name="stock" class="form-control"><br><br>
-
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" class="form-control"><br><br>
-
-         <button type="submit" name="anade" value="anade" class="btn btn-success">Añade producto</button><br><br>
-
-     </form>
-   </div>
+    <img src="{{url_for('static', filename='image_total.jpg')}}"  width="600" height="400" />
 
 
 
 
-    <table class="table table-hover">
-        <tr class="table-dark">
-
-            {% for header in headings %}
-            <th>
-                {{ header }}
-            </th>
-
-            {% endfor %}
-        </tr>
-
-        {% for row in data %}
-        <tr class="table-secondary">
-
-            {% for cell in row %}
-            <td>{{ cell }}</td>
-            {% endfor %}
-
-        </tr>
-
-        {% endfor %}
-
-        </tr>
-    </table>
 
 </main>
 

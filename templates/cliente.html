@@ -24,11 +24,92 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
     <h1 class="display-4 text-center mt-4 " style="color:white">Produktor©</h1>
      <div class="col-md-4 offset-md-4 my-auto">
 
+        <div class="col-md-4 offset-md-4 my-auto">
+
         <div class="d-grid gap-2">
-            <form method="post" action="/">
+            <form method="post" action=".">
                 <button type="submit" name="cliente" value="cliente" class="btn btn-primary">Home</button>
             </form>
         </div>
+
+
+        </div>
+
+     <br><br>
+
+          {% for row in data %}
+
+            {% if row[3] * 0.1 > row[5] %}
+                <div class="alert alert-dismissible alert-warning">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <h4 class="alert-heading">Alerta de stock!</h4>
+                    <p class="mb-0">Los productos en rojo tienen un stock muy bajo. Considera pedir más cantidades de tu proveedor.</p>
+                </div>
+            {% endif %}
+
+         {% endfor %}
+
+
+    <div>
+     <form method = "post" action="/actualizar">
+
+        <label for="nombre">ID:</label>
+        <input type="text" id="producto" name="producto" value="" class="form-control"><br><br>
+
+         <label for="precio">Compras:</label>
+        <input type="number" step=any id="compras" name="compras" class="form-control"><br><br>
+        <button type="submit" name="Envia" value="Envia" class="btn btn-success">Añade producto</button><br><br>
+    </div>
+
+
+    <table class="table table-hover">
+        <tr class="table-dark">
+
+            {% for header in headings %}
+            <th>
+                {{ header }}
+            </th>
+
+            {% endfor %}
+        </tr>
+
+        {% for row in data %}
+
+            {% if row[3] * 0.1 < row[5] %}
+                <tr class="table-secondary">
+
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+
+                </tr>
+
+            {% else %}
+                <tr class="table-warning">
+
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+
+                </tr>
+            {% endif %}
+
+
+        {% endfor %}
+
+    </table>
+
+    <br><br>
+
+         <h2>Ventas totales por producto</h2>
+
+
+    <img src="{{url_for('static', filename='image_empresas.jpg')}}"  width="600" height="400" />
+
+
+
+
+
 </main>
 
 

@@ -25,62 +25,25 @@ background: linear-gradient(to right, #eef2f3, #8e9eab);">
      <div class="col-md-4 offset-md-4 my-auto">
 
 
-        <div class="btn-toolbar gap-4 btn-group-lg">
-                <form method="get" action="/a">
-
-                    <button type="submit" name="admin" value="admin" class="btn btn-outline-secondary">Admin</button>
-
-                </form>
-
-            <form method="post" action="/cliente">
-
-                <button type="submit" name="cliente_b" value="cliente" class="btn btn-primary">Cliente</button>
-
-            </form>
-
-
-            <form method="post" action="/proveedor">
-
-                <button type="submit" name="proveedor_b" value="proveedor" class="btn btn-warning">Proveedor</button>
-
-            </form>
-
-
-        </div>
          <br><br>
          <br><br>
          <br><br>
 
 
-         </div>
+     </div>
 
-          <div class="col-md-4 offset-md-4 my-auto">
-              <div class="card bg-light mb-3" style="align-items: center; display: flex;">
-                <div class="card-header">Accede a tu cuenta</div>
-                    <div class="card-body" style="max-width: 20rem;>
+                     <form method="post" action="/">
 
+                        <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
+                        <input type="text" name="email" value="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
 
-                        <form method = "post" action="/">
-                            <div class="form-group">
-                            <label for="usuario" class="form-label mt-4"></label>
-                            <input type="email" class="form-control" id="usuario" aria-describedby="emailHelp" placeholder="Enter email">
-                            <small id="emailHelp" class="form-text text-muted"></small>
-                            </div>
-
-         <br><br>
-
-
-                        <div class="form-floating">
-                            <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña">
-                            <label for="floatingPassword"></label>
-                        </div>
-         <br><br>
+                        <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
+                        <input type="password" name="contrasena" value="" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                <br><br>
 
                         <button type="submit" name="accede" value="accede" class="btn btn-dark">Accede</button><br><br>
+                    </form>
 
-                    </div>
-              </div>
-          </div>
 
 
 
