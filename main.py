@@ -1,6 +1,6 @@
 from flask import *
 import db
-from models import Stock, Contrasenas
+from models import Stock
 from flask_sqlalchemy import SQLAlchemy
 from flask_sqlalchemy_report import Reporter
 import matplotlib.pyplot as plt
@@ -11,16 +11,16 @@ import numpy as np
 # inicializar el servidor en el dominio actual
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/') #ruta de home, muestra solamente la ventana de login
 def home():
     return render_template("index.html")
 
-@app.route('/', methods=['POST'])
-def autentificacion_admin():
+@app.route('/', methods=['GET', 'POST'])
+def autentificacion_admin(): #funcion que verifica el usuario
 
     if request.method == 'POST':
-        db = open("database/usuarios.txt", "r")
-        db2 = open("database/contrasenas.txt", "r")
+        db = open("database/usuarios.txt", "r") #txt con los login
+        db2 = open("database/contrasenas.txt", "r") #txt con las contrasenas
 
         usuario = request.form['email']
         contrasena = request.form['contrasena']
@@ -28,26 +28,27 @@ def autentificacion_admin():
         contrasenas = db2.readlines()
         usuariosDict = dict.fromkeys(usuarios, None)
 
-        acceso = dict(zip(usuarios, contrasenas))
+        acceso = dict(zip(usuarios, contrasenas)) #convierte los dos txt en un diccionario
 
-        for clave in acceso:
-            valor = acceso.get(clave)
-            if valor == "1234":
-                return render_template("admin.html", image_total=image_total)
-            elif valor == "5678":
-                return render_template("cliente.html")
-            elif valor == "prove1234":
-                return render_template("proveedor.html")
+        #mira si la contrasena introducida corresponde a la contrasena
+        if usuario == "admin" and contrasena == "1234":
+            return redirect(url_for('acceso_admin'))
+        if usuario == "cliente" and contrasena == "5678":
+            return redirect(url_for('acceso_cliente'))
+        if usuario == "proveedor" and contrasena == "prove":
+            return redirect(url_for('acceso_proveedor'))
+
 
 @app.route('/a', methods=['GET', 'POST'])
 
-def admin():
+def acceso_admin(): #funcion de la vista admin.html
+
     todas_las_filas = db.session.query(Stock).all()
     ventas = {}
     compras = {}
 
 
-    for i in todas_las_filas:
+    for i in todas_las_filas: #calcula las ventas y las compras por producto
 
         if i.nombre in ventas:
 
@@ -65,10 +66,10 @@ def admin():
             compras[i.nombre] = (i.vendidos+i.stock)*i.precio_compra
 
 
+    headings_stock = ("ID", "Nombre", "Precio", "Localización", "Disponibilidad", "Ventas", "Descripción")
+    image_total = url_for('static', filename='image_total.jpg') #guarda la graifca en una imagen
 
-    image_total = url_for('static', filename='image_total.jpg')
-
-    style.use("grayscale")
+    style.use("fivethirtyeight") #aplica un estilo
     productos = compras.keys()
     valores_ventas = ventas.values()
     valores_compras = compras.values()
@@ -78,6 +79,7 @@ def admin():
 
 
     fig, ax = plt.subplots()
+    #describe los parametros de las axes
     rects1 = ax.bar(x - width / 2, valores_compras, width)
     rects2 = ax.bar(x + width / 2, valores_ventas, width)
 
@@ -85,9 +87,10 @@ def admin():
     ax.set_title('Ventas y compras')
     ax.set_xticks(x)
     ax.set_xticklabels(productos)
-    ax.legend()
-
-    plt.savefig("static/image_total.jpg",bbox_inches='tight', dpi=150)
+    ax.tick_params(labelsize=8) #cambia el tamano de letra
+    plt.legend()
+    plt.xticks(rotation='vertical') #gira el texto de las etiquetas
+    plt.savefig("static/image_total.jpg",bbox_inches='tight', dpi=500)
 
 
     return render_template("admin.html", image_total=image_total)
@@ -95,7 +98,7 @@ def admin():
 
 
 @app.route('/anadir_productos', methods=['POST'])
-def anadir_productos():
+def anadir_productos(): #permite modificar la cantidad de stock ## funcion inactiva
 
     nombre = request.form.get("nombre")
     precio = request.form.get("precio")
@@ -114,7 +117,7 @@ def anadir_productos():
     return render_template("admin.html")
 
 @app.route('/actualizar', methods=['POST'])
-def actualizar_productos():
+def actualizar_productos(): # actualiza el stock de los productos ## funcion inactiva
 
     producto = request.form.get("producto")
     compras = request.form.get("compras")
@@ -131,14 +134,14 @@ def actualizar_productos():
     nombre_productos = {}
 
     for i in todas_las_tareas:
-        data.append((i.id, i.nombre, i.precio, i.lugar, i.stock, i.vendidos, i.descripcion))
+        data.append((i.id, i.nombre, i.precio_venta, i.lugar, i.stock, i.vendidos, i.descripcion))
 
         if i.nombre in nombre_productos:
 
-            nombre_productos[i.nombre] += i.vendidos * i.precio
+            nombre_productos[i.nombre] += i.vendidos * i.precio_venta
 
         else:
-            nombre_productos[i.nombre] = i.vendidos * i.precio
+            nombre_productos[i.nombre] = i.vendidos * i.precio_venta
 
     headings = ("ID", "Nombre", "Precio", "Localización", "Disponibilidad", "Ventas", "Descripción")
     image = url_for('static', filename='image.jpg')
@@ -155,17 +158,18 @@ def actualizar_productos():
     return render_template("cliente.html", headings=headings, data=data, image=image)
 
 @app.route('/cliente', methods=['GET', 'POST'])
+
 def acceso_cliente():
-    todas_las_tareas = db.session.query(Stock).all()
-    print(todas_las_tareas)
+    todas_las_lineas= db.session.query(Stock).all()
+    print(todas_las_lineas)
     data = []
     nombre_productos = {}
 
-    for i in todas_las_tareas:
+    for i in todas_las_lineas:
         data.append((i.id, i.nombre, i.precio_venta, i.capacidad, i.lugar, i.stock, i.vendidos, i.proveedor, i.descripcion))
         if i.nombre in nombre_productos:
 
-            nombre_productos[i.nombre] += i.vendidos * i.precio_venta
+            nombre_productos[i.nombre] += i.vendidos * i.precio_venta #calcula las ventas de cada producto
 
         else:
             nombre_productos[i.nombre] = i.vendidos * i.precio_venta
@@ -174,6 +178,7 @@ def acceso_cliente():
     image = url_for('static', filename='image.jpg')
 
     style.use("grayscale")
+#genera la grafica de los productos vendidos por el cliente
 
     fig = plt.figure(figsize=(15, 10))
     ax = fig.add_axes([0, 0, 1, 1])
@@ -187,6 +192,7 @@ def acceso_cliente():
 
 
 @app.route('/proveedor', methods=['GET', 'POST'])
+
 def acceso_proveedor():
     todas_las_tareas = db.session.query(Stock).all()
     print(todas_las_tareas)
@@ -217,7 +223,7 @@ def acceso_proveedor():
     image_productos = url_for('static', filename='image_productos.jpg')
 
     style.use("grayscale")
-
+#calcula cuanto ha ganado el proveedor por producto
     fig = plt.figure(figsize=(15, 10))
     ax = fig.add_axes([0, 0, 1, 1])
     productos = nombre_productos.keys()
@@ -228,7 +234,7 @@ def acceso_proveedor():
     image_empresas = url_for('static', filename='image_empresas.jpg')
 
     style.use("grayscale")
-
+#calcula cuanto ha ganado el proveedor segun la empresa que le ha comprado productos
     fig = plt.figure(figsize=(15, 10))
     ax = fig.add_axes([0, 0, 1, 1])
     lista_empresas = empresas.keys()
@@ -237,15 +243,6 @@ def acceso_proveedor():
     plt.savefig("static/image_empresas.jpg", bbox_inches='tight', dpi=150)
 
     return render_template("proveedor.html", headings_stock=headings_stock, data_stock=data_stock, image_productos=image_productos, image_empresas=image_empresas)
-
-@app.route('/c')
-def cliente():
-    pass
-
-
-@app.route('/p')
-def proveedor():
-    pass
 
 
 if __name__ == "__main__":

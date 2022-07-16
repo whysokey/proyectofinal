@@ -56,12 +56,3 @@ class Stock(db.Base):
         
     '''
 
-
-
-class Contrasenas(db.Base):
-    __tablename__ = "Contrasenas"
-    id = Column(Integer, primary_key=True)
-    acceso = Column(String)
-    login = Column(String)
-    contrasena = Column(String)
-

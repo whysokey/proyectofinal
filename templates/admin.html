@@ -27,7 +27,7 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
         <div class="btn-toolbar gap-4 btn-group-lg">
                 <form method="get" action="/">
 
-                    <button type="submit" name="admin" value="admin" class="btn btn-outline-secondary">Home</button>
+                    <button type="submit" name="admin" value="admin" class="btn btn-outline-secondary">Cerrar sesión</button>
 
                 </form>
 
@@ -46,11 +46,39 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
 
 
         </div>
+     </div>
+
+
+     <table class="table table-hover">
+        <tr class="table-dark">
+
+            {% for header in headings_stock %}
+            <th>
+                {{ header }}
+            </th>
+
+            {% endfor %}
+        </tr>
+
+        {% for row in data_stock %}
+        <tr class="table-secondary">
+
+            {% for cell in row %}
+            <td>{{ cell }}</td>
+            {% endfor %}
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
 
      <br><br>
 
 
-    <img src="{{url_for('static', filename='image_total.jpg')}}"  width="600" height="400" />
+    <center>
+        <img src="{{url_for('static', filename='image_total.jpg')}}"  width="1200" height="800" />
+    </center>
 
 
 
@@ -59,7 +87,6 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
 </main>
 
 
-</div>
 
 </body>
 </html>

@@ -13,17 +13,21 @@
 
 </head>
 
-
-<body style="background: #8e9eab;
-background: -webkit-linear-gradient(to right, #eef2f3, #8e9eab);
-background: linear-gradient(to right, #eef2f3, #8e9eab);">
+<body style="background: #fdc830; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #fdc830, #f37335); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #fdc830, #f37335); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */">
 
 
 <main class="container">
 
     <h1 class="display-4 text-center mt-4 " style="color:white">Produktor©</h1>
-     <div class="col-md-4 offset-md-4 my-auto">
 
+         <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <h4 class="alert-heading">Bienvenido!</h4>
+             <p class="mb-0">Por favor, introduce tu usuario y contraseña. <a href="#" class="alert-link">Recuerda que el login no es tu correo electrónico, es un usuario único.</a>
+                 <br>Se te mostrarán los datos según el acceso que tengas.</p>
+        </div>
 
          <br><br>
          <br><br>
@@ -34,14 +38,14 @@ background: linear-gradient(to right, #eef2f3, #8e9eab);">
 
                      <form method="post" action="/">
 
-                        <label for="exampleInputEmail1" class="form-label mt-4">Email address</label>
-                        <input type="text" name="email" value="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <label for="exampleInputEmail1" class="form-label mt-4">Introduce tu usuario:</label>
+                        <input type="text" name="email" value="" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Usuario">
 
-                        <label for="exampleInputPassword1" class="form-label mt-4">Password</label>
-                        <input type="password" name="contrasena" value="" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <label for="exampleInputPassword1" class="form-label mt-4">Escribe tu contraseña:</label>
+                        <input type="password" name="contrasena" value="" class="form-control" id="exampleInputPassword1" placeholder="Contraseña">
                                 <br><br>
 
-                        <button type="submit" name="accede" value="accede" class="btn btn-dark">Accede</button><br><br>
+                        <button type="submit" name="accede" value="accede" class="btn btn-light">Accede</button><br><br>
                     </form>
 
 
@@ -55,8 +59,6 @@ background: linear-gradient(to right, #eef2f3, #8e9eab);">
    </div>
 </main>
 
-
-</div>
 
 </body>
 </html>

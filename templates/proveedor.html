@@ -14,27 +14,19 @@
 </head>
 
 
-<body style="background: #757f9a;
-background: -webkit-linear-gradient(to left, #757f9a, #d7dde8);
-background: linear-gradient(to left, #757f9a, #d7dde8);">
+<body style="background: #11998e;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #38ef7d, #11998e);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #38ef7d, #11998e); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */">
 
 
 <main class="card-body">
 
     <h1 class="display-4 text-center mt-4 " style="color:white">Produktor©</h1>
-     <div class="col-md-4 offset-md-4 my-auto">
+    <form method="get" action="/">
 
-        <div class="col-md-4 offset-md-4 my-auto">
+        <button type="submit" name="admin" value="admin" class="btn btn-outline-secondary">Cerrar sesión</button>
 
-        <div class="d-grid gap-2">
-            <form method="post" action=".">
-                <button type="submit" name="proveedor" value="proveedor" class="btn btn-primary">Home</button>
-            </form>
-        </div>
-
-
-        </div>
-
+    </form>
      <br><br>
 
 
@@ -62,10 +54,14 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
 
     </table>
 
-    <img src="{{url_for('static', filename='image_productos.jpg')}}"  width="600" height="400" />
+        <h2 style="text-align:center">Ganancias según producto</h2>
+        <center><img src="{{url_for('static', filename='image_productos.jpg')}}"  width="1200" height="600" /></center>
 
          <br><br>
-    <img src="{{url_for('static', filename='image_empresas.jpg')}}"  width="600" height="400" />
+
+         <h2 style="text-align:center">Ganancias según empresa</h2>
+         <center><img src="{{url_for('static', filename='image_empresas.jpg')}}"  width="1200" height="600" /></center>
+
          <br><br>
 
 
@@ -97,8 +93,6 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
 
 </main>
 
-
-</div>
 
 </body>
 </html>
