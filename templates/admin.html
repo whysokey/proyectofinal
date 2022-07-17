@@ -48,11 +48,22 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
         </div>
      </div>
 
+    <br><br>
+    <br><br>
+    {% for row in data_admin %}
+        {% if row[6] * 0.1 >= row[5] %}
+                <div class="alert alert-dismissible alert-warning">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <h4 class="alert-heading">Alerta de stock!</h4>
+                    <p class="mb-0">Los productos en amarillo tienen un stock muy bajo. Considera pedir más cantidades de tu proveedor.</p>
+                </div>
+        {% endif %}
+    {% endfor %}
 
      <table class="table table-hover">
         <tr class="table-dark">
 
-            {% for header in headings_stock %}
+            {% for header in headings_admin %}
             <th>
                 {{ header }}
             </th>
@@ -60,16 +71,30 @@ background: linear-gradient(to left, #757f9a, #d7dde8);">
             {% endfor %}
         </tr>
 
-        {% for row in data_stock %}
-        <tr class="table-secondary">
+        {% for row in data_admin %}
 
-            {% for cell in row %}
-            <td>{{ cell }}</td>
-            {% endfor %}
+            {% if row[6] * 0.1 < row[5] %}
+                <tr class="table-secondary">
 
-        </tr>
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+
+                </tr>
+
+            {% else %}
+                <tr class="table-warning">
+
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+
+                </tr>
+            {% endif %}
+
 
         {% endfor %}
+
 
     </table>
 

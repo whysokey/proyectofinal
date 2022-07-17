@@ -46,9 +46,12 @@ def acceso_admin(): #funcion de la vista admin.html
     todas_las_filas = db.session.query(Stock).all()
     ventas = {}
     compras = {}
+    data_admin = []
 
 
     for i in todas_las_filas: #calcula las ventas y las compras por producto
+        data_admin.append((i.id, i.nombre, i.precio_compra, i.precio_venta, i.lugar, i.stock, i.capacidad, i.vendidos, i.descripcion, i.proveedor,
+                           i.telefono, i.direccion, i.cif, i.facturacion, i.descuento, i.iva))
 
         if i.nombre in ventas:
 
@@ -66,7 +69,8 @@ def acceso_admin(): #funcion de la vista admin.html
             compras[i.nombre] = (i.vendidos+i.stock)*i.precio_compra
 
 
-    headings_stock = ("ID", "Nombre", "Precio", "Localización", "Disponibilidad", "Ventas", "Descripción")
+    headings_admin = ("ID", "Nombre", "Precio compra", "Precio venta", "Localización", "Disponibilidad", "Capacidad", "Ventas", "Descripción", "Proveedor", "Telefono", "Direccion",
+                      "CIF", "Facturacion", "Descuento", "IVA")
     image_total = url_for('static', filename='image_total.jpg') #guarda la graifca en una imagen
 
     style.use("fivethirtyeight") #aplica un estilo
@@ -93,7 +97,7 @@ def acceso_admin(): #funcion de la vista admin.html
     plt.savefig("static/image_total.jpg",bbox_inches='tight', dpi=500)
 
 
-    return render_template("admin.html", image_total=image_total)
+    return render_template("admin.html", image_total=image_total, headings_admin=headings_admin, data_admin=data_admin)
 
 
 
@@ -161,7 +165,6 @@ def actualizar_productos(): # actualiza el stock de los productos ## funcion ina
 
 def acceso_cliente():
     todas_las_lineas= db.session.query(Stock).all()
-    print(todas_las_lineas)
     data = []
     nombre_productos = {}
 
@@ -174,8 +177,9 @@ def acceso_cliente():
         else:
             nombre_productos[i.nombre] = i.vendidos * i.precio_venta
 
+
     headings = ("ID", "Nombre", "Precio venta", "Capacidad", "Localización", "Disponibilidad", "Ventas", "Proveedor", "Descripción")
-    image = url_for('static', filename='image.jpg')
+    image = url_for('static', filename='image_cliente.jpg')
 
     style.use("grayscale")
 #genera la grafica de los productos vendidos por el cliente
@@ -185,7 +189,7 @@ def acceso_cliente():
     productos = nombre_productos.keys()
     vendidos = nombre_productos.values()
     ax.bar(productos, vendidos)
-    plt.savefig("static/image.jpg", bbox_inches='tight', dpi=150)
+    plt.savefig("static/image_cliente.jpg", bbox_inches='tight', dpi=150)
     plt.title("Ventas totales por producto")
 
     return render_template("cliente.html", headings=headings, data=data, image=image)
@@ -194,13 +198,13 @@ def acceso_cliente():
 @app.route('/proveedor', methods=['GET', 'POST'])
 
 def acceso_proveedor():
-    todas_las_tareas = db.session.query(Stock).all()
-    print(todas_las_tareas)
+    todas_las_lineas = db.session.query(Stock).all()
+    print(todas_las_lineas)
     data_stock = []
     nombre_productos = {}
     empresas = {}
 
-    for i in todas_las_tareas:
+    for i in todas_las_lineas:
         data_stock.append((i.nombre, i.precio_compra, (i.vendidos+i.stock)*i.precio_compra, i.descuento, i.iva, i.stock, i.descripcion, i.proveedor, i.telefono, i.direccion, i.cif))
 
         if i.nombre in nombre_productos:
